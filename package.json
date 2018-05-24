@@ -1,0 +1,62 @@
+{
+  "name": "dhis2-sample",
+  "version": "30.0.0",
+  "description": "Sample app for DHIS2, with translations",
+  "main": "index.js",
+  "license": "BSD-3-Clause",
+  "scripts": {
+    "start": "webpack-dev-server --config webpack.dev.js",
+    "build": "npm run localize && webpack -p --config webpack.prod.js",
+    "postbuild": "npm run manifest",
+    "manifest": "d2-manifest package.json build/manifest.webapp",
+    "format": "prettier --write \"src/**/*.j{s,sx}\"",
+    "localize": "npm run extract-pot && d2-i18n-generate -n Sample-app -p ./i18n/ -o ./src/locales/",
+    "extract-pot": "d2-i18n-extract -p src/ -o i18n/",
+    "prestart": "npm run localize && d2-manifest package.json ./public/manifest.webapp"
+  },
+  "manifest.webapp": {
+    "name": "Sample app",
+    "launch_path": "index.html",
+    "appType": "APP",
+    "icons": {
+      "48": "icon.png"
+    },
+    "apiVersion": "30",
+    "developer": {
+      "name": "Kjetil Svalestuen",
+      "company": "DHIS2"
+    },
+    "default_locale": "en",
+    "activities": {
+      "dhis": {
+        "href": ".."
+      }
+    }
+  },
+  "dependencies": {
+    "@dhis2/d2-i18n": "^1.0.3",
+    "d2": "^30.0.0",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2"
+  },
+  "devDependencies": {
+    "@dhis2/d2-i18n-extract": "^1.0.7",
+    "@dhis2/d2-i18n-generate": "^1.0.18",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.3",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-imports": "^1.5.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^4.5.1",
+    "css-loader": "^0.28.11",
+    "d2-manifest": "^1.0.0",
+    "eslint-config-dhis2": "^3.0.7",
+    "html-webpack-plugin": "^3.2.0",
+    "style-loader": "^0.21.0",
+    "webpack": "3",
+    "webpack-merge": "^4.1.2"
+  }
+}
